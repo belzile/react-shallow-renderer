@@ -1,9 +1,12 @@
 {
-  "name": "belzile-react-shallow-renderer",
+  "name": "@belzile/react-shallow-renderer",
   "version": "19.0.0",
   "description": "React package for shallow rendering.",
   "main": "index.js",
-  "repository": "https://github.com/belzile/react-shallow-renderer.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/belzile/react-shallow-renderer.git"
+  },
   "keywords": [
     "react",
     "react-native",
@@ -69,5 +72,6 @@
     "lint": "eslint --ignore-path .gitignore .",
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js --runInBand --no-cache"
-  }
+  },
+  "author": ""
 }
