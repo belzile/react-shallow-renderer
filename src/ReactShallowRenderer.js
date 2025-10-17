@@ -9,15 +9,13 @@
 
 import React from 'react';
 import {isForwardRef, isMemo, ForwardRef} from 'react-is';
-import describeComponentFrame from './shared/describeComponentFrame';
+// import describeComponentFrame from './shared/describeComponentFrame';
 import getComponentName from './shared/getComponentName';
 import shallowEqual from './shared/shallowEqual';
 import checkPropTypes from './shared/checkPropTypes';
 import ReactSharedInternals from './shared/ReactSharedInternals';
 import {error} from './shared/consoleWithStackDev';
 import is from './shared/objectIs';
-
-const {ReactCurrentDispatcher, ReactDebugCurrentFrame} = ReactSharedInternals;
 
 const RE_RENDER_LIMIT = 25;
 
@@ -518,14 +516,9 @@ See https://fb.me/react-invalid-hook-call for tips about how to debug and fix th
     this._context = getMaskedContext(elementType.contextTypes, context);
 
     // Inner memo component props aren't currently validated in createElement.
-    let prevGetStack;
-    if (process.env.NODE_ENV !== 'production') {
-      prevGetStack = ReactDebugCurrentFrame.getCurrentStack;
-      ReactDebugCurrentFrame.getCurrentStack = getStackAddendum;
-    }
     try {
       if (isMemo(element) && elementType.propTypes) {
-        currentlyValidatingElement = element;
+        // currentlyValidatingElement = element;
         checkPropTypes(
           elementType.propTypes,
           element.props,
@@ -581,8 +574,8 @@ See https://fb.me/react-invalid-hook-call for tips about how to debug and fix th
             }
           }
           if (shouldRender) {
-            const prevDispatcher = ReactCurrentDispatcher.current;
-            ReactCurrentDispatcher.current = this._dispatcher;
+            const prevDispatcher = ReactSharedInternals.H;
+            ReactSharedInternals.H = this._dispatcher;
             try {
               // elementType could still be a ForwardRef if it was
               // nested inside Memo.
@@ -595,22 +588,20 @@ See https://fb.me/react-invalid-hook-call for tips about how to debug and fix th
                 this._rendered = elementType.render.call(
                   undefined,
                   element.props,
-                  element.ref,
+                  // element.ref,
                 );
               } else {
                 this._rendered = elementType(element.props, this._context);
               }
             } finally {
-              ReactCurrentDispatcher.current = prevDispatcher;
+              ReactSharedInternals.H = prevDispatcher;
             }
             this._finishHooks(element, context);
           }
         }
       }
     } finally {
-      if (process.env.NODE_ENV !== 'production') {
-        ReactDebugCurrentFrame.getCurrentStack = prevGetStack;
-      }
+
     }
 
     this._rendering = false;
@@ -749,34 +740,34 @@ See https://fb.me/react-invalid-hook-call for tips about how to debug and fix th
   }
 }
 
-let currentlyValidatingElement = null;
+// let currentlyValidatingElement = null;
 
-function getDisplayName(element) {
-  if (element == null) {
-    return '#empty';
-  } else if (typeof element === 'string' || typeof element === 'number') {
-    return '#text';
-  } else if (typeof element.type === 'string') {
-    return element.type;
-  } else {
-    const elementType = isMemo(element) ? element.type.type : element.type;
-    return elementType.displayName || elementType.name || 'Unknown';
-  }
-}
+// function getDisplayName(element) {
+//   if (element == null) {
+//     return '#empty';
+//   } else if (typeof element === 'string' || typeof element === 'number') {
+//     return '#text';
+//   } else if (typeof element.type === 'string') {
+//     return element.type;
+//   } else {
+//     const elementType = isMemo(element) ? element.type.type : element.type;
+//     return elementType.displayName || elementType.name || 'Unknown';
+//   }
+// }
 
-function getStackAddendum() {
-  let stack = '';
-  if (currentlyValidatingElement) {
-    const name = getDisplayName(currentlyValidatingElement);
-    const owner = currentlyValidatingElement._owner;
-    stack += describeComponentFrame(
-      name,
-      currentlyValidatingElement._source,
-      owner && getComponentName(owner.type),
-    );
-  }
-  return stack;
-}
+// function getStackAddendum() {
+//   let stack = '';
+//   if (currentlyValidatingElement) {
+//     const name = getDisplayName(currentlyValidatingElement);
+//     const owner = currentlyValidatingElement._owner;
+//     stack += describeComponentFrame(
+//       name,
+//       currentlyValidatingElement._source,
+//       owner && getComponentName(owner.type),
+//     );
+//   }
+//   return stack;
+// }
 
 function getName(type, instance) {
   const constructor = instance && instance.constructor;

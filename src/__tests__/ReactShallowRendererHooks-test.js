@@ -9,7 +9,7 @@
  */
 
 import * as React from 'react';
-import ReactShallowRenderer from 'react-shallow-renderer';
+import ReactShallowRenderer from 'belzile-react-shallow-renderer';
 
 const createRenderer = ReactShallowRenderer.createRenderer;
 

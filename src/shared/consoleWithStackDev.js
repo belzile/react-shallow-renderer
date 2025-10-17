@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ReactSharedInternals from './ReactSharedInternals';
+// import ReactSharedInternals from './ReactSharedInternals';
 
 export function warn(format, ...args) {
   if (process.env.NODE_ENV !== 'production') {
@@ -27,13 +27,14 @@ function printWarning(level, format, args) {
       args[args.length - 1].indexOf('\n    in') === 0;
 
     if (!hasExistingStack) {
-      const ReactDebugCurrentFrame =
-        ReactSharedInternals.ReactDebugCurrentFrame;
-      const stack = ReactDebugCurrentFrame.getStackAddendum();
-      if (stack !== '') {
-        format += '%s';
-        args = args.concat([stack]);
-      }
+      console.error(args[1]);
+      // const ReactDebugCurrentFrame =
+      //   ReactSharedInternals.ReactDebugCurrentFrame;
+      // const stack = ReactDebugCurrentFrame.getStackAddendum();
+      // if (stack !== '') {
+      //   format += '%s';
+      //   args = args.concat([stack]);
+      // }
     }
 
     const argsWithFormat = args.map(item => '' + item);
