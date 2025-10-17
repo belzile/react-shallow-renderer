@@ -10,7 +10,7 @@
 
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
-import ReactShallowRenderer from 'react-shallow-renderer';
+import ReactShallowRenderer from 'belzile-react-shallow-renderer';
 
 const createRenderer = ReactShallowRenderer.createRenderer;
 
@@ -1235,9 +1235,8 @@ describe('ReactShallowRendererMemo', () => {
 
     const shallowRenderer = createRenderer();
     expect(() => shallowRenderer.render(<SimpleComponent />)).toErrorDev(
-      'Warning: Failed context type: The context `name` is marked as ' +
-        'required in `SimpleComponent`, but its value is `undefined`.\n' +
-        '    in SimpleComponent (at **)',
+      'The context `name` is marked as ' +
+        'required in `SimpleComponent`, but its value is `undefined`.',
     );
   });
 
