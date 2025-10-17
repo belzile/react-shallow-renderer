@@ -1,6 +1,6 @@
 {
   "name": "@belzile/react-shallow-renderer",
-  "version": "19.0.0",
+  "version": "19.0.1",
   "description": "React package for shallow rendering.",
   "main": "index.js",
   "repository": {
@@ -63,7 +63,8 @@
     "index.js",
     "cjs/",
     "esm/",
-    "umd/"
+    "umd/",
+    "src/"
   ],
   "scripts": {
     "prebuild": "rimraf build",
